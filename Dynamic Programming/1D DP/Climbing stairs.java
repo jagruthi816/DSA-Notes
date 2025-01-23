@@ -62,3 +62,85 @@ class Solution {
         return dp[n];
     }
 }
+
+/* Method 3
+   Bottom-Up Approach in Tabulation: Tabulation involves solving a problem by building a solution from the bottom up. This means start with the smallest subproblems and iteratively compute solutions for larger subproblems until the desired solution has been found.
+   Setting Base Cases in the Array:In the recursive code, we knew the answer for base cases, similarly if we are computing in tabulation, we definitely know that the answer for dp[0] = 1 and dp[1] = 1.
+   Iterative Computation Using a Loop: Set an iterative loop that traverses the array( from index 2 to n). To compute the solution for larger values, use a loop that iterates from the smallest subproblem up to n. The current value(dp[i]) represents the subproblem and by the recurrence relation it is obvious that it is sum of previous two values, for every index(i) set its value as dp[i-1] + dp[i-2].
+   
+   Time Complexity: O(N), where N is the given number of stairs. This is because we perform a linear number of operations relative to the input size N.
+   Space Complexity:O(N), an additional array dp of size n + 1 is used to store intermediate results. Hence, the space complexity is O(N).
+*/
+
+import java.util.*;
+
+class Solution {
+    // Function to count total ways to reach nth stair
+    public int climbStairs(int n) {
+        // Declare dp array of size n+1
+        int[] dp = new int[n + 1];
+
+        // Insert the values of base conditions
+        dp[0] = 1;
+        dp[1] = 1;
+
+        // Iterate and update every index of dp array
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        // Return the answer
+        return dp[n];
+    }
+
+    public static void main(String[] args) {
+        int n = 3;
+
+        // Create an instance of Solution class
+        Solution sol = new Solution();
+
+        // Print the answer
+        System.out.println("The total number of ways: " + sol.climbStairs(n));
+    }
+}
+
+/* Method 4
+   Space Optimization
+   If we observe the relation dp[i] = dp[i-1] + dp[i-2], we notice that to calculate the current value at index i, we only need the previous two values. Using an entire array for just two values seems overhead. Instead, the work can be done using two variables to store the previous two values, achieving O(1) space complexity. In each iteration, the current value and the variables containing previous values can be updated.
+   In each iteration, cur_i is calculated and prev and prev2 are updated to become the next iteration's prev and prev2 respectively.
+   After the iterative loop has ended, prev is returned as the answer.
+   
+   Time Complexity: O(N), where N is the given number of stairs. This is because we perform a linear number of operations relative to the input size n.
+   Space Complexity:O(1). As no extra space is being used here.
+*/
+
+import java.util.*;
+
+class Solution {
+    // Function to count total ways to reach nth stair
+    public int climbStairs(int n) {
+        /*Initialize two variables to 
+        store previous results*/
+        int prev2 = 1;
+        int prev = 1;
+        
+        //Iterate and update the variables
+        for (int i = 2; i <= n; i++) {
+            int cur_i = prev2 + prev;
+            prev2 = prev;
+            prev = cur_i;
+        }
+        //Return the answer as prev
+        return prev;
+    }
+
+    public static void main(String[] args) {
+        int n = 3;
+
+        // Create an instance of Solution class
+        Solution sol = new Solution();
+
+        // Print the answer
+        System.out.println("The total number of ways: " + sol.climbStairs(n));
+    }
+}
