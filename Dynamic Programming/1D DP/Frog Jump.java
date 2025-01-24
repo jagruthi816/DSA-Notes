@@ -45,4 +45,40 @@ class Solution {
     }
 }
 
+/* Method 2 
+   Memoization
+  */
+class Solution {
+    public int frogJump(int[] heights) {
+       int n = heights.length;
+       int dp[] = new int[n];
+       Arrays.fill(dp, -1);
+        return frogJump(heights, n - 1, dp); 
+    }
+    public int frogJump(int[] heights, int ind, int[] dp) {
+        // Base case: if the frog is at the first step
+        if (ind == 0) return 0;
+        
+        if(dp[ind] != -1){
+            return dp[ind];
+        }
+        // Recursively calculate the energy required to 
+        // jump to the current step from the previous step
+        int jumpOne = frogJump(heights, ind - 1, dp) + Math.abs(heights[ind] - heights[ind - 1]);
+        
+        // Initialize jumpTwo to a large value
+        int jumpTwo = Integer.MAX_VALUE;
+        
+        // If possible, recursively calculate the energy required to 
+        // jump to the current step from two steps back
+        if (ind > 1) {
+            jumpTwo = frogJump(heights, ind - 2, dp) + Math.abs(heights[ind] - heights[ind - 2]);
+        }
+        
+        // Return the minimum energy required to reach the current step
+        dp[ind] = Math.min(jumpOne, jumpTwo);
+        return dp[ind];
+    }
+}
+
   
