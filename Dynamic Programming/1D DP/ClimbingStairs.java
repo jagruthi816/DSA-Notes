@@ -5,7 +5,7 @@
 
 import java.util.*;
 
-class Solution{
+class ClimbingStairs{
     //Function to count total ways to reach nth stair
     public static int climbStairs(int n){
         //Base case
