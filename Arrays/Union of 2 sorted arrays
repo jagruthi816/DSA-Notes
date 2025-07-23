@@ -1,0 +1,46 @@
+Given two sorted arrays nums1 and nums2, return an array that contains the union of these two arrays. The elements in the union must be in ascending order.
+The union of two arrays is an array where all values are distinct and are present in either the first array, the second array, or both.
+
+class Solution {
+    public int[] unionArray(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = nums2.length;
+        int l = 0;
+        int r = 0;
+        List<Integer> list = new ArrayList<>();
+        while(l < n && r < m){
+            if(nums1[l] == nums2[r]){
+                if(list.isEmpty() || list.get(list.size() - 1) != nums1[l])
+                list.add(nums1[l]);
+                l++;
+                r++;
+            }
+            else if(nums1[l] < nums2[r]){
+                if(list.isEmpty() || list.get(list.size() - 1) != nums1[l])
+                list.add(nums1[l]);
+                l++;
+            }
+            else{
+                if(list.isEmpty() || list.get(list.size() - 1) != nums2[r])
+                list.add(nums2[r]);
+                r++;
+            }
+        }
+        while(l < n){
+            if(list.isEmpty() || list.get(list.size() - 1) != nums1[l])
+            list.add(nums1[l]);
+            l++;
+        }
+        while(r < m){
+            if(list.isEmpty() || list.get(list.size() - 1) != nums2[r])
+            list.add(nums2[r]);
+            r++;
+        }
+        int[] arr = new int[list.size()];
+        for(int i = 0; i < list.size(); i++){
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
+}
+
